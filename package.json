@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "asbuild:untouched": "asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug",
+    "asbuild:optimized": "asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize",
+    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
+    "compile": "npm run asbuild:optimized && ~/Tools/wabt/build/wat2wasm build/optimized.wat -o build/optimized.wasm",
+    "start": "npm run compile && rm index.js && browserify source_index.js -o index.js && http-server . -o -c-1"
+  },
+  "devDependencies": {
+    "assemblyscript": "github:AssemblyScript/assemblyscript",
+    "http-server": "^0.11.1"
+  }
+}
